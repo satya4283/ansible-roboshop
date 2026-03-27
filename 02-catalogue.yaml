@@ -1,0 +1,16 @@
+- name: configuring catalogue component 
+  hosts: catalogue
+  become: yes 
+  tasks:
+  - name: disable default nodejs 
+    ansible.builtin.command: dnf module disable nodejs -y
+
+  - name: enable nodejs:20
+    ansible.builtin.service:
+      name: nodejs:20
+      enabled: yes
+  
+  - name: install nodejs 
+    ansible.builtin.dnf:
+      name: nodejs
+      state: present 
