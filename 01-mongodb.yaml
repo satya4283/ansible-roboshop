@@ -28,3 +28,8 @@
     ansible.builtin.service:
       name: mongod
       state: restarted
+
+  - name: copy mongodb repo 
+    ansible.builtin.copy:
+      src: mongo.repo 
+      dest: /etc/yum.repos.d/mongo.repo
