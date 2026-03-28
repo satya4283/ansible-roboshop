@@ -1,0 +1,3 @@
+- name: configuring shipping component
+  hosts: shipping
+  
