@@ -82,7 +82,7 @@
       login_password: Roboshop@1
       login_host: mysql.roboshopdaws84.site
       state: import
-      target: "{{item}}"
+      target: "{{ item }}"
     loop:
     - /app/db/schema.sql
     - /app/db/app-user.sql 
