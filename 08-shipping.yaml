@@ -35,4 +35,54 @@
     args:
       chdir: /app
 
+  - name: rename jar file
+    ansible.builtin.command: mv target/shipping-1.0.jar shipping.jar 
+    args:
+      chdir: /app
+
+  - name: copy shipping service to system directory 
+    ansible.builtin.copy:
+      src: shipping.service
+      dest: /etc/systemd/system/shipping.service
+
+  - name: systemclt demon reload
+    ansible.builtin.systemd_service:
+      daemon_reload: true
+
+  - name: start and enable shipping
+    ansible.builtin.service:
+      name: shipping 
+      state: started
+      enabled: yes
+
+  - name: Install mysql client
+    ansible.builtin.dnf:
+      name: mysql
+      state: installed
+
+  # - name: connect to mysql using app user
+  #   community.mysql.mysql_info:
+  #     login_user: shipping
+  #     login_password: Roboshop@1
+  #     login_host: mysql.roboshopdaws84.site
+  #     login_db: cities
+
+  - name: import data
+    community.mysql.mysql_db:
+      name: all
+      login_user: root
+      login_password: Roboshop@1
+      login_host: mysql.roboshopdaws84.site
+      state: import
+      target: "{{item}}"
+    loop:
+    - /app/db/schema.sql
+    - /app/db/app-user.sql 
+    - /app/db/master-data.sql
+
+  - name: restart shipping component
+    ansible.builtin.service:
+      name: shipping
+      state: restarted
+
   
