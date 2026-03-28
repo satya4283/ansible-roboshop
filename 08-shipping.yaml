@@ -1,7 +1,7 @@
 - name: configuring shipping component
   hosts: shipping
   become: yes
-  taks:
+  tasks:
   - name: Inatall maven 
     ansible.builtin.dnf:
       name: maven
